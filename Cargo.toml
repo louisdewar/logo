@@ -1,0 +1,9 @@
+[package]
+name = "logo_lib"
+version = "0.1.0"
+authors = ["Louis de Wardt <1338292+louisdewar@users.noreply.github.com>"]
+
+[dependencies]
+image = "0.19"
+imageproc = "0.15"
+itertools = "0.7.8"
