@@ -1,31 +1,58 @@
-extern crate image;
 extern crate logo_lib;
 
-use logo_lib::command::{basic::*, flow_control::Loop, Command};
-use logo_lib::program::Program;
-use logo_lib::turtle::Turtle;
+use logo_lib::command::{basic::*, flow_control::Loop, pen::*, Command};
+use logo_lib::{canvas::Image, Program, Rgba, Turtle};
 
-const N: u32 = 100;
-const LENGTH: f64 = 5.0;
+use std::f64::consts;
+
+// The radius of the shape, this is the distance from a corner to the center.
+// This is set to the width of the (image / 2) - 50 to give it a bit of padding
+const RADIUS: f64 = (500.0 / 2.0) - 50.0;
 
 fn main() {
-    let draw_line = Program::new(vec![
-        Box::new(Forward::new(LENGTH)),
-        Box::new(TurnRight::new(2.0 * ::std::f64::consts::PI / N as f64)),
-    ]);
+    // Setup
+    let (draw_queue, mut image) = Image::new(500, 500);
 
-    let ast: Vec<Box<Command>> = vec![Box::new(Loop::new(draw_line, N))];
-
-    let program = Program::new(ast);
     let mut turtle = Turtle::new(
-        (50.0, 50.0),
-        -::std::f64::consts::FRAC_2_PI,
-        ::image::Rgb([0, 255, 0]),
+        (0.0, 0.0),
+        -consts::FRAC_PI_2,
+        Rgba([0, 255, 0, 255]),
+        draw_queue,
     );
 
-    let mut image = image::RgbImage::new(500, 500);
+    // Draw shapes with number of sides n
+    for n in 3..100 {
+        // The length of each side is calculated so that it will create the desired radius
+        // (r * sin(360 / n)) / (cos(180 / n))
+        let length = (RADIUS * (2.0 * consts::PI / n as f64).sin()) / (consts::PI / n as f64).cos();
 
-    program.run(&mut turtle, &mut image);
+        let draw_line = Program::new(vec![
+            Box::new(TurnRight::new(2.0 * consts::PI / n as f64)),
+            Box::new(Forward::new(length)),
+        ]);
 
-    image.save("example_n_dimensional.png").unwrap();
+        let ast: Vec<Box<Command>> = vec![
+            // Set position to be centre
+            Box::new(SetPosition::new(250.0, 250.0)),
+            Box::new(PenUp {}),
+            // Move from center to edge of shape
+            Box::new(Forward::new(RADIUS)),
+            // Turn right so that it is on correctly on the edge of the shape
+            Box::new(TurnRight::new(consts::FRAC_PI_2 - (consts::PI / n as f64))),
+            Box::new(PenDown {}),
+            // Loop and draw shape
+            Box::new(Loop::new(draw_line, n)),
+        ];
+
+        let program = Program::new(ast);
+
+        // Run the program for each shape
+        program.run(&mut turtle);
+    }
+
+    image.draw_in_queue();
+    image
+        .get_internal_image()
+        .save("example_n_dimensional.png")
+        .unwrap();
 }

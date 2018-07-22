@@ -1,19 +1,20 @@
-use image::RgbImage;
+use parse::{ParseError, Token};
 use turtle::Turtle;
 
 pub mod basic;
 pub mod flow_control;
+pub mod pen;
 
 /// Represents a command
 pub trait Command {
-    /// Run the command possibly changing the turtle or drawing to the output image
-    fn run(&self, turtle: &mut Turtle, image: &mut RgbImage);
+    /// Run the command
+    fn run(&self, turtle: &mut Turtle);
 
     /// Parse the command, gets given an iterator which represents the stream of tokens
     /// The parser should only `take()` the number of tokens it needs, since the stream will contain tokens of other commands
     fn parse<'a>(
-        tokens: &mut impl ::std::iter::Iterator<Item = &'a str>,
-    ) -> Result<Box<Self>, ::program::ParseError>
+        tokens: &mut impl ::std::iter::Iterator<Item = Token<'a>>,
+    ) -> Result<Box<Self>, ParseError<'a>>
     where
         Self: Sized;
 

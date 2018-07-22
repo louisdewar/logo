@@ -7,3 +7,4 @@ authors = ["Louis de Wardt <1338292+louisdewar@users.noreply.github.com>"]
 image = "0.19"
 imageproc = "0.15"
 itertools = "0.7.8"
+colored = "1.6"

@@ -2,7 +2,7 @@
 
 use super::Command;
 
-use image::RgbImage;
+use parse::{ParseError, Token};
 use turtle::Turtle;
 
 /// Command to move forward by a certain amount
@@ -17,37 +17,32 @@ impl Forward {
 }
 
 impl Command for Forward {
-    fn run(&self, turtle: &mut Turtle, image: &mut RgbImage) {
+    fn run(&self, turtle: &mut Turtle) {
         // TODO: Wait for NLL fix to remove unnecessary scope
-        let end = {
+        let (start, end) = {
             let angle = turtle.get_angle();
             let delta = ((self.amount * angle.cos()), (self.amount * angle.sin()));
 
-            let (start_x, start_y) = turtle.get_pos();
-            let (end_x, end_y) = ((start_x + delta.0), (start_y + delta.1));
+            let start = turtle.get_pos();
+            let end = ((start.0 + delta.0), (start.1 + delta.1));
 
-            use imageproc::drawing;
-            drawing::draw_line_segment_mut(
-                image,
-                (start_x.round() as f32, start_y.round() as f32),
-                (end_x.round() as f32, end_y.round() as f32),
-                turtle.get_colour(),
-            );
-
-            (end_x, end_y)
+            (*start, end)
         };
+
+        // If pen is down then draw
+        if turtle.is_pen_down() {
+            turtle.draw_line(start, end);
+        }
 
         turtle.set_pos(end);
     }
 
     fn parse<'a>(
-        tokens: &mut impl ::std::iter::Iterator<Item = &'a str>,
-    ) -> Result<Box<Self>, ::program::ParseError> {
-        let amount = tokens
-            .next()
-            .ok_or(::program::ParseError::NotEnoughArguments)?
+        tokens: &mut impl ::std::iter::Iterator<Item = Token<'a>>,
+    ) -> Result<Box<Self>, ParseError<'a>> {
+        let amount = try_word_token!(tokens.next().ok_or(ParseError::NotEnoughArguments)?)
             .parse()
-            .map_err(|_| ::program::ParseError::InvalidArguments)?;
+            .map_err(|_| ParseError::InvalidArguments)?;
 
         Ok(Box::new(Self::new(amount)))
     }
@@ -69,19 +64,17 @@ impl TurnRight {
 }
 
 impl Command for TurnRight {
-    fn run(&self, turtle: &mut Turtle, _: &mut RgbImage) {
+    fn run(&self, turtle: &mut Turtle) {
         turtle.change_angle(self.amount);
     }
 
     fn parse<'a>(
-        tokens: &mut impl ::std::iter::Iterator<Item = &'a str>,
-    ) -> Result<Box<Self>, ::program::ParseError> {
+        tokens: &mut impl ::std::iter::Iterator<Item = Token<'a>>,
+    ) -> Result<Box<Self>, ParseError<'a>> {
         // Angle in degrees
-        let amount = tokens
-            .next()
-            .ok_or(::program::ParseError::NotEnoughArguments)?
+        let amount = try_word_token!(tokens.next().ok_or(ParseError::NotEnoughArguments)?)
             .parse::<f64>()
-            .map_err(|_| ::program::ParseError::InvalidArguments)?;
+            .map_err(|_| ParseError::InvalidArguments)?;
 
         Ok(Box::new(Self::new(amount.to_radians())))
     }
@@ -89,5 +82,41 @@ impl Command for TurnRight {
     fn to_code(&self) -> String {
         // TODO: Decide if this is the right way to go forward
         format!("rt {}", self.amount.to_degrees().round())
+    }
+}
+
+/// Command to move forward by a certain amount
+pub struct SetPosition {
+    x: f64,
+    y: f64,
+}
+
+impl SetPosition {
+    pub fn new(x: f64, y: f64) -> SetPosition {
+        SetPosition { x, y }
+    }
+}
+
+impl Command for SetPosition {
+    fn run(&self, turtle: &mut Turtle) {
+        turtle.set_pos((self.x, self.y));
+    }
+
+    fn parse<'a>(
+        tokens: &mut impl ::std::iter::Iterator<Item = Token<'a>>,
+    ) -> Result<Box<Self>, ParseError<'a>> {
+        let x = try_word_token!(tokens.next().ok_or(ParseError::NotEnoughArguments)?)
+            .parse()
+            .map_err(|_| ParseError::InvalidArguments)?;
+
+        let y = try_word_token!(tokens.next().ok_or(ParseError::NotEnoughArguments)?)
+            .parse()
+            .map_err(|_| ParseError::InvalidArguments)?;
+
+        Ok(Box::new(Self::new(x, y)))
+    }
+
+    fn to_code(&self) -> String {
+        format!("set_pos {} {}", self.x, self.y)
     }
 }

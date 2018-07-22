@@ -1,16 +1,27 @@
-use image::Rgb;
+use canvas::Line;
+use std::sync::mpsc::Sender;
+use Colour;
 
 /// Represents the current drawing state
 pub struct Turtle {
     pos: (f64, f64),
     /// Measured in radians, 0 rad means facing east / right
     angle: f64,
-    colour: Rgb<u8>,
+    colour: Colour,
+    pen_down: bool,
+    // A way of sending lines to the draw queue
+    draw_queue: Sender<Line>,
 }
 
 impl Turtle {
-    pub fn new(pos: (f64, f64), angle: f64, colour: Rgb<u8>) -> Turtle {
-        Turtle { pos, angle, colour }
+    pub fn new(pos: (f64, f64), angle: f64, colour: Colour, draw_queue: Sender<Line>) -> Turtle {
+        Turtle {
+            pos,
+            angle,
+            colour,
+            pen_down: true,
+            draw_queue,
+        }
     }
 
     pub fn set_pos(&mut self, pos: (f64, f64)) {
@@ -37,11 +48,30 @@ impl Turtle {
         &self.angle
     }
 
-    pub fn set_colour(&mut self, colour: Rgb<u8>) {
+    pub fn set_colour(&mut self, colour: Colour) {
         self.colour = colour;
     }
 
-    pub fn get_colour(&self) -> Rgb<u8> {
+    pub fn get_colour(&self) -> Colour {
         self.colour
+    }
+
+    pub fn set_pen_down(&mut self, pen_down: bool) {
+        self.pen_down = pen_down
+    }
+
+    pub fn is_pen_down(&self) -> bool {
+        self.pen_down
+    }
+
+    /// Sends a line to the draw_queue, this will panic if the receiver of the draw queue has closed its channel
+    pub fn draw_line(&self, start: (f64, f64), end: (f64, f64)) {
+        let colour = self.get_colour();
+
+        let line = Line { colour, start, end };
+
+        self.draw_queue
+            .send(line)
+            .expect("Receiver closed channel before drawing was finished!");
     }
 }
