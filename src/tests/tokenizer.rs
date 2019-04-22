@@ -45,7 +45,8 @@ fn tokenizer_loop() {
                         Token::Word("90"),
                         Token::Word("fd"),
                         Token::Word("300"),
-                    ].into(),
+                    ]
+                    .into(),
                 ),
             ];
 
@@ -79,7 +80,8 @@ fn tokenizer_loop_2() {
                         Token::Word("90"),
                         Token::Word("fd"),
                         Token::Word("300"),
-                    ].into(),
+                    ]
+                    .into(),
                 ),
                 Token::Word("fd"),
                 Token::Word("100"),
@@ -91,7 +93,8 @@ fn tokenizer_loop_2() {
                         Token::Word("10"),
                         Token::Word("fd"),
                         Token::Word("50"),
-                    ].into(),
+                    ]
+                    .into(),
                 ),
             ];
 
@@ -125,7 +128,8 @@ fn tokenizer_nested_loop() {
                         Token::Word("repeat"),
                         Token::Word("5"),
                         Token::Program(vec![Token::Word("fd"), Token::Word("300")].into()),
-                    ].into(),
+                    ]
+                    .into(),
                 ),
             ];
 
