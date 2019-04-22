@@ -73,7 +73,8 @@ impl Command for SetColour {
                 InvalidArgumentError {
                     argument: Token::Word(argument),
                     expected: "u8",
-                }.into()
+                }
+                .into()
             })?;
         }
 

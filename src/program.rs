@@ -16,6 +16,7 @@ impl Program {
 
     pub fn to_code(&self) -> String {
         use itertools;
+        #[allow(clippy::redundant_closure)]
         itertools::join(self.commands.iter().map(|command| command.to_code()), " ")
     }
 

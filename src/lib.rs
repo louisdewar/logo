@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 extern crate colored;
 extern crate image;
 extern crate imageproc;
