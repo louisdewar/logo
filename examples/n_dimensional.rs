@@ -24,10 +24,10 @@ fn main() {
     for n in 3..100 {
         // The length of each side is calculated so that it will create the desired radius
         // (r * sin(360 / n)) / (cos(180 / n))
-        let length = (RADIUS * (2.0 * consts::PI / n as f64).sin()) / (consts::PI / n as f64).cos();
+        let length = (RADIUS * (2.0 * consts::PI / f64::from(n)).sin()) / (consts::PI / f64::from(n)).cos();
 
         let draw_line = Program::new(vec![
-            Box::new(TurnRight::new(2.0 * consts::PI / n as f64)),
+            Box::new(TurnRight::new(2.0 * consts::PI / f64::from(n))),
             Box::new(Forward::new(length)),
         ]);
 
@@ -38,7 +38,7 @@ fn main() {
             // Move from center to edge of shape
             Box::new(Forward::new(RADIUS)),
             // Turn right so that it is on correctly on the edge of the shape
-            Box::new(TurnRight::new(consts::FRAC_PI_2 - (consts::PI / n as f64))),
+            Box::new(TurnRight::new(consts::FRAC_PI_2 - (consts::PI / f64::from(n)))),
             Box::new(PenDown {}),
             // Loop and draw shape
             Box::new(Loop::new(draw_line, n)),
