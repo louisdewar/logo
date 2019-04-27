@@ -58,6 +58,8 @@ pub fn parse_program_tokens(tokens_program: ProgramTokens) -> Result<Program, Pa
                     "pu" => pen::PenUp::parse(&mut tokens)?,
                     "pd" => pen::PenDown::parse(&mut tokens)?,
                     "set_colour" => pen::SetColour::parse(&mut tokens)?,
+                    "clear" => pen::Clear::parse(&mut tokens)?,
+                    "clear_colour" => pen::ClearColour::parse(&mut tokens)?,
                     command => return Err(ParseError::InvalidCommand(command)),
                 };
                 commands.push(command);
