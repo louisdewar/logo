@@ -1,4 +1,4 @@
-use canvas::{ Line, DrawCommand };
+use canvas::{DrawCommand, Line};
 use std::sync::mpsc::Sender;
 use Colour;
 
@@ -14,7 +14,12 @@ pub struct Turtle {
 }
 
 impl Turtle {
-    pub fn new(pos: (f64, f64), angle: f64, colour: Colour, draw_queue: Sender<DrawCommand>) -> Turtle {
+    pub fn new(
+        pos: (f64, f64),
+        angle: f64,
+        colour: Colour,
+        draw_queue: Sender<DrawCommand>,
+    ) -> Turtle {
         Turtle {
             pos,
             angle,
@@ -66,7 +71,9 @@ impl Turtle {
 
     /// Clears the screen to a specified colour
     pub fn clear_colour(&self, colour: Colour) {
-        self.draw_queue.send(DrawCommand::ClearScreen(colour)).expect("Receiver closed channel before drawing was finished")
+        self.draw_queue
+            .send(DrawCommand::ClearScreen(colour))
+            .expect("Receiver closed channel before drawing was finished")
     }
 
     /// Sends a line to the draw_queue, this will panic if the receiver of the draw queue has closed its channel

@@ -1,6 +1,6 @@
 use std::sync::mpsc::{channel, Receiver, Sender};
 
-use image::{ RgbaImage, ImageBuffer };
+use image::{ImageBuffer, RgbaImage};
 use Colour;
 
 pub struct Line {
@@ -44,7 +44,7 @@ impl Image {
                     (line.end.0.round() as f32, line.end.1.round() as f32),
                     line.colour,
                 );
-            },
+            }
             DrawCommand::ClearScreen(colour) => {
                 let (width, height) = image.dimensions();
 
@@ -52,7 +52,6 @@ impl Image {
             }
         }
     }
-
 
     /// Draws as many lines as there are in the queue, it will return when there are no more lines to draw
     pub fn draw_in_queue(&mut self) {
