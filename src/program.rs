@@ -1,6 +1,6 @@
-use command::Command;
-use parse::{parse_program, ParseError};
-use turtle::Turtle;
+use crate::command::Command;
+use crate::parse::{parse_program, ParseError};
+use crate::turtle::Turtle;
 
 /// Represents a set of commands.
 /// It is essentially an Abstract Syntax tree

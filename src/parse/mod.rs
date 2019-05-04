@@ -4,9 +4,9 @@ pub mod tokenizer;
 pub use self::tokenizer::Token;
 
 use self::tokenizer::{tokenize, ProgramTokens};
-use program::Program;
+use crate::program::Program;
 
-use command::{basic, flow_control, pen, Command};
+use crate::command::{basic, flow_control, pen, Command};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum ParseError<'a> {

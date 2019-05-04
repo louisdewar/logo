@@ -2,9 +2,9 @@
 
 use super::Command;
 
-use parse::{InvalidArgumentError, ParseError, Token};
-use turtle::Turtle;
-use {Colour, Rgba};
+use crate::parse::{InvalidArgumentError, ParseError, Token};
+use crate::turtle::Turtle;
+use crate::{Colour, Rgba};
 
 /// Puts the pen up so that no drawing happens
 pub struct PenUp;

@@ -2,8 +2,8 @@
 
 use super::Command;
 
-use parse::{ParseError, Token};
-use turtle::Turtle;
+use crate::parse::{ParseError, Token};
+use crate::turtle::Turtle;
 
 /// Command to move forward by a certain amount
 pub struct Forward {

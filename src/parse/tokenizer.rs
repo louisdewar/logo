@@ -13,7 +13,7 @@ macro_rules! try_word_token {
         match $expr {
             Token::Word(word) => word,
             Token::Program(program) => {
-                return Err(::parse::ParseError::UnexpectedProgramArgument(program))
+                return Err(crate::parse::ParseError::UnexpectedProgramArgument(program))
             }
         }
     };

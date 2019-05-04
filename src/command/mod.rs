@@ -1,5 +1,5 @@
-use parse::{ParseError, Token};
-use turtle::Turtle;
+use crate::parse::{ParseError, Token};
+use crate::turtle::Turtle;
 
 pub mod basic;
 pub mod flow_control;
