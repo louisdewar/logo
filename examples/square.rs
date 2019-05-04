@@ -1,5 +1,3 @@
-
-
 use logo_lib::command::{basic::*, flow_control::Loop, Command};
 use logo_lib::{canvas::Image, Program, Rgba, Turtle};
 

@@ -1,5 +1,3 @@
-
-
 use logo_lib::parse::tokenizer::tokenize;
 
 fn main() {

@@ -1,9 +1,6 @@
 #![deny(clippy::all)]
 
-
 use image;
-
-
 
 #[macro_use]
 pub mod parse;

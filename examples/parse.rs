@@ -1,5 +1,3 @@
-
-
 use logo_lib::{canvas::Image, Program, Rgba, Turtle};
 
 fn main() {
