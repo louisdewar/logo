@@ -1,9 +1,9 @@
 #![deny(clippy::all)]
 
-extern crate colored;
-extern crate image;
-extern crate imageproc;
-extern crate itertools;
+
+use image;
+
+use itertools;
 
 #[macro_use]
 pub mod parse;

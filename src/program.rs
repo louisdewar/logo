@@ -10,7 +10,7 @@ pub struct Program {
 
 impl Program {
     /// Prase a program object from a string which is the user written program (see language spec)
-    pub fn parse(input: &str) -> Result<Program, ParseError> {
+    pub fn parse(input: &str) -> Result<Program, ParseError<'_>> {
         parse_program(input)
     }
 

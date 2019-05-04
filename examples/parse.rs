@@ -1,4 +1,4 @@
-extern crate logo_lib;
+
 
 use logo_lib::{canvas::Image, Program, Rgba, Turtle};
 
