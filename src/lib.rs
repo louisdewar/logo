@@ -3,7 +3,7 @@
 
 use image;
 
-use itertools;
+
 
 #[macro_use]
 pub mod parse;
