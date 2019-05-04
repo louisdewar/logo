@@ -1,7 +1,7 @@
 use std::sync::mpsc::{channel, Receiver, Sender};
 
-use image::{ImageBuffer, RgbaImage};
 use crate::Colour;
+use image::{ImageBuffer, RgbaImage};
 
 pub struct Line {
     pub colour: Colour,

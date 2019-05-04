@@ -16,8 +16,8 @@ pub mod turtle;
 #[cfg(test)]
 mod tests;
 
-pub use image::{RgbImage, Rgba};
 pub use crate::program::Program;
 pub use crate::turtle::Turtle;
+pub use image::{RgbImage, Rgba};
 
 pub type Colour = image::Rgba<u8>;
