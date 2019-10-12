@@ -40,7 +40,6 @@ pub struct ProgramTokens<'a>(pub Vec<Token<'a>>);
 
 impl<'a> fmt::Display for ProgramTokens<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        use itertools;
         write!(f, "{}", itertools::join(self.iter(), " "))
     }
 }
