@@ -1,4 +1,4 @@
-use parse::tokenizer::{tokenize, SyntaxError, Token};
+use crate::parse::tokenizer::{tokenize, SyntaxError, Token};
 
 #[test]
 fn tokenizer_basic() {

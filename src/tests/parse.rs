@@ -1,4 +1,4 @@
-use program::Program;
+use crate::program::Program;
 
 #[test]
 fn parse_basic() {

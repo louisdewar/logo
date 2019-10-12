@@ -1,6 +1,6 @@
-use canvas::{DrawCommand, Line};
+use crate::canvas::{DrawCommand, Line};
+use crate::Colour;
 use std::sync::mpsc::Sender;
-use Colour;
 
 /// Represents the current drawing state
 pub struct Turtle {

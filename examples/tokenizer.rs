@@ -1,5 +1,3 @@
-extern crate logo_lib;
-
 use logo_lib::parse::tokenizer::tokenize;
 
 fn main() {

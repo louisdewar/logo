@@ -1,6 +1,6 @@
-use command::Command;
-use parse::{parse_program, ParseError};
-use turtle::Turtle;
+use crate::command::Command;
+use crate::parse::{parse_program, ParseError};
+use crate::turtle::Turtle;
 
 /// Represents a set of commands.
 /// It is essentially an Abstract Syntax tree
@@ -10,12 +10,11 @@ pub struct Program {
 
 impl Program {
     /// Prase a program object from a string which is the user written program (see language spec)
-    pub fn parse(input: &str) -> Result<Program, ParseError> {
+    pub fn parse(input: &str) -> Result<Program, ParseError<'_>> {
         parse_program(input)
     }
 
     pub fn to_code(&self) -> String {
-        use itertools;
         #[allow(clippy::redundant_closure)]
         itertools::join(self.commands.iter().map(|command| command.to_code()), " ")
     }

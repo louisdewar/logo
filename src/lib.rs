@@ -1,9 +1,6 @@
 #![deny(clippy::all)]
 
-extern crate colored;
-extern crate image;
-extern crate imageproc;
-extern crate itertools;
+use image;
 
 #[macro_use]
 pub mod parse;
@@ -16,8 +13,8 @@ pub mod turtle;
 #[cfg(test)]
 mod tests;
 
+pub use crate::program::Program;
+pub use crate::turtle::Turtle;
 pub use image::{RgbImage, Rgba};
-pub use program::Program;
-pub use turtle::Turtle;
 
 pub type Colour = image::Rgba<u8>;

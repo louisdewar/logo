@@ -1,9 +1,9 @@
 //! Commands to do with flow control, such as Loop
 
 use super::Command;
-use parse::{parse_program_tokens, ParseError, Token};
-use program::Program;
-use turtle::Turtle;
+use crate::parse::{parse_program_tokens, ParseError, Token};
+use crate::program::Program;
+use crate::turtle::Turtle;
 
 /// A loop will run a given program for a certain specified number of times
 pub struct Loop {

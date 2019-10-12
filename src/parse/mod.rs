@@ -4,9 +4,9 @@ pub mod tokenizer;
 pub use self::tokenizer::Token;
 
 use self::tokenizer::{tokenize, ProgramTokens};
-use program::Program;
+use crate::program::Program;
 
-use command::{basic, flow_control, pen, Command};
+use crate::command::{basic, flow_control, pen, Command};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum ParseError<'a> {
@@ -37,12 +37,12 @@ impl<'a> Into<ParseError<'a>> for InvalidArgumentError<'a> {
     }
 }
 
-pub fn parse_program(input: &str) -> Result<Program, ParseError> {
-    let tokens_program: ProgramTokens = tokenize(input).map_err(ParseError::Syntax)?;
+pub fn parse_program(input: &str) -> Result<Program, ParseError<'_>> {
+    let tokens_program: ProgramTokens<'_> = tokenize(input).map_err(ParseError::Syntax)?;
 
     parse_program_tokens(tokens_program)
 }
-pub fn parse_program_tokens(tokens_program: ProgramTokens) -> Result<Program, ParseError> {
+pub fn parse_program_tokens(tokens_program: ProgramTokens<'_>) -> Result<Program, ParseError<'_>> {
     let mut tokens = tokens_program.0.into_iter();
 
     let mut commands = Vec::new();

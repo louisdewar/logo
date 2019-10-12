@@ -1,5 +1,3 @@
-extern crate logo_lib;
-
 use logo_lib::command::{basic::*, flow_control::Loop, pen::*, Command};
 use logo_lib::{canvas::Image, Program, Rgba, Turtle};
 
@@ -32,7 +30,7 @@ fn main() {
             Box::new(Forward::new(length)),
         ]);
 
-        let ast: Vec<Box<Command>> = vec![
+        let ast: Vec<Box<dyn Command>> = vec![
             // Set position to be centre
             Box::new(SetPosition::new(250.0, 250.0)),
             Box::new(PenUp {}),

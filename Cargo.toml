@@ -2,9 +2,10 @@
 name = "logo_lib"
 version = "0.1.0"
 authors = ["Louis de Wardt <1338292+louisdewar@users.noreply.github.com>"]
+edition = "2018"
 
 [dependencies]
-image = "0.19"
-imageproc = "0.15"
-itertools = "0.7.8"
-colored = "1.6"
+image = "0.22.3"
+imageproc = "0.19.2"
+itertools = "0.8.0"
+colored = "1.8.0"

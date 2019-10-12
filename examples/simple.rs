@@ -1,5 +1,3 @@
-extern crate logo_lib;
-
 use logo_lib::command::basic::Forward;
 use logo_lib::{canvas::Image, Program, Rgba, Turtle};
 

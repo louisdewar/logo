@@ -13,14 +13,14 @@ macro_rules! try_word_token {
         match $expr {
             Token::Word(word) => word,
             Token::Program(program) => {
-                return Err(::parse::ParseError::UnexpectedProgramArgument(program))
+                return Err(crate::parse::ParseError::UnexpectedProgramArgument(program))
             }
         }
     };
 }
 
 impl<'a> fmt::Display for Token<'a> {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         use colored::*;
         match self {
             Token::Word(word) => write!(f, "{}", word.blue().underline()),
@@ -39,8 +39,7 @@ impl<'a> fmt::Display for Token<'a> {
 pub struct ProgramTokens<'a>(pub Vec<Token<'a>>);
 
 impl<'a> fmt::Display for ProgramTokens<'a> {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        use itertools;
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", itertools::join(self.iter(), " "))
     }
 }
@@ -133,7 +132,7 @@ fn tokenize_block<'a>(
     }
 }
 
-pub fn tokenize(input: &str) -> Result<ProgramTokens, SyntaxError> {
+pub fn tokenize(input: &str) -> Result<ProgramTokens<'_>, SyntaxError> {
     tokenize_block(&mut 0, input, &mut input.char_indices(), false)
 }
 
